@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>星尘の小窝</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    :root {
+      --primary-color: #a3d2ff;
+      --secondary-color: #7ec4ff;
+      --accent-color: #5fa8d3;
+      --light-color: #e6f7ff;
+      --dark-color: #1e88e5;
+      --text-color: #333;
+      --card-bg: rgba(255, 255, 255, 0.85);
+    }
+
+    body {
+      background: linear-gradient(135deg, var(--light-color), var(--primary-color));
+      min-height: 100vh;
+      color: var(--text-color);
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://zt.axzt.top/sjzt') no-repeat center center / cover;
+      backdrop-filter: blur(10px);
+      z-index: -1;
+    }
+
+    #trail-canvas {
+      position: fixed;
+      left: 0;
+      top: 0;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px;
+      position: relative;
+      animation: fadeIn 1s ease;
+    }
+
+    .logo {
+      width: 120px;
+      height: 120px;
+      background: var(--card-bg);
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 5px solid var(--accent-color);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .logo-placeholder {
+      font-size: 3rem;
+      color: var(--accent-color);
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 10px;
+      color: var(--dark-color);
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      position: relative;
+      display: inline-block;
+    }
+
+    h1::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+      border-radius: 2px;
+    }
+
+    .tagline {
+      font-size: 1.3rem;
+      color: var(--dark-color);
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50px;
+      backdrop-filter: blur(5px);
+    }
+
+    .main-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin: 40px 0;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+
+    .card h2 {
+      color: var(--dark-color);
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid var(--secondary-color);
+      display: flex;
+      align-items: center;
+    }
+
+    .card h2 i {
+      margin-right: 10px;
+      color: var(--accent-color);
+    }
+
+    .about-content p {
+      line-height: 1.8;
+      margin-bottom: 15px;
+    }
+
+    .furry-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .furry-item {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      padding: 10px 20px;
+      border-radius: 50px;
+      color: white;
+      font-weight: 500;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+    }
+
+    .furry-item i {
+      margin-right: 8px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .gallery-item {
+      aspect-ratio: 1/1;
+      border-radius: 15px;
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.05);
+    }
+
+    .gallery-item i {
+      font-size: 2.5rem;
+      color: white;
+      opacity: 0.8;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      background: white;
+      border-radius: 15px;
+      text-decoration: none;
+      color: var(--text-color);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .contact-link:hover {
+      transform: translateX(10px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-link i {
+      width: 50px;
+      height: 50px;
+      background: var(--secondary-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: white;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      margin-top: 40px;
+      color: var(--dark-color);
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="trail-canvas"></canvas>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <div class="logo-placeholder">
+          <i class="fas fa-paw"></i>
+        </div>
+      </div>
+      <h1>星尘の小窝</h1>
+      <div class="tagline">
+        欢迎来到星尘の小窝 | furry控
+      </div>
+    </header>
+
+    <div class="main-content">
+      <div class="card">
+        <h2><i class="fas fa-user"></i> 关于我</h2>
+        <div class="about-content">
+          <p>嗨嗨～这里是星尘～是一只furry控兼二次元，同时也是音游人，wmc（？），fps狂热者，最喜欢的角色是花子～，最喜欢玩的游戏是cs和无畏契约</p>
+          <p>咱16岁，目前是高中生，但是假期期间长时间在线，欢迎来打扰（）。</p>
+          <p>嘛，说了这么多，这个网站是我在互联网上的一个小窝，用来跟大家扩列～希望能认识更多的朋友qwq</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><i class="fas fa-heart"></i> furry控</h2>
+        <p>我的兽设：一只淡蓝毛色的小狼，性格温和，喜欢刷机和游戏</p>
+
+        <div class="furry-info">
+          <div class="furry-item"><i class="fas fa-paw"></i> 狼系兽设</div>
+          <div class="furry-item"><i class="fas fa-cloud"></i> oc人</div>
+          <div class="furry-item"><i class="fas fa-cookie"></i> 游戏玩家</div>
+          <div class="furry-item"><i class="fas fa-gamepad"></i> 刷机狂热者</div>
+		  <div class="furry-item"><i class="fas fa-gamepad"></i> 音游人</div>
+        </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><i class="fas fa-comments"></i> 联系我</h2>
+        <p>想要交流Furry文化、分享二次元兴趣，或者单纯交个朋友？欢迎通过这些方式联系我：</p>
+
+        <div class="contact-links">
+          <a href="https://qm.qq.com/q/WL9cmXuq8A" class="contact-link">
+            <i class="fab fa-qq"></i>
+            <div>
+              <h3>QQ</h3>
+              <p>QQ：597468028</p>
+            </div>
+          </a>
+          <a href="https://space.bilibili.com/700276723" class="contact-link">
+            <i class="fab fa-bilibili"></i>
+            <div>
+              <h3>哔哩哔哩</h3>
+              <p>关注我的频道</p>
+            </div>
+          </a>
+		  <a href="http://dust-morse.xyz/" class="contact-link">
+            <i class="fas fa-paw"></i>
+            <div>
+              <h3>█████████████████</h3>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2025 星尘の小窝</p>
+    </footer>
+  </div>
+
+  <!-- 拖尾粒子效果脚本 -->
+  <script>
+    (function() {
+      const canvas = document.getElementById('trail-canvas');
+      const ctx = canvas.getContext('2d');
+      let width = canvas.width = window.innerWidth;
+      let height = canvas.height = window.innerHeight;
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      const particles = [];
+
+      document.addEventListener('mousemove', e => {
+        for (let i = 0; i < 2; i++) {
+          particles.push({
+            x: e.clientX,
+            y: e.clientY,
+            radius: Math.random() * 3 + 1,
+            alpha: 1,
+            dx: (Math.random() - 0.5) * 1.5,
+            dy: (Math.random() - 0.5) * 1.5
+          });
+        }
+      });
+
+      function draw() {
+        ctx.clearRect(0, 0, width, height);
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(173, 216, 230, ${p.alpha})`;
+          ctx.fill();
+          p.x += p.dx;
+          p.y += p.dy;
+          p.alpha -= 0.02;
+          if (p.alpha <= 0) particles.splice(i--, 1);
+        }
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+    })();
+  </script>
+</body>
+</html>
