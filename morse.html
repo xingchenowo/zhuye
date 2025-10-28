@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>摩尔斯电码展示</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        morse: '#2D3748',
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .morse-group {
+                margin: 0 0.5rem 0.5rem;
+                padding: 0.25rem 0.75rem;
+                border-radius: 0.375rem;
+                transition: all 0.3s ease;
+            }
+            .morse-group:hover {
+                background-color: rgba(45, 55, 72, 0.1);
+                transform: scale(1.05);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+    <div class="text-center max-w-3xl">
+        <!-- 摩尔斯电码展示区域 - 按斜杠分组 -->
+        <div class="morse-code-container flex flex-wrap justify-center items-center">
+            <span class="morse-group text-morse text-xl md:text-2xl lg:text-3xl font-mono">/...--</span>
+            <span class="morse-group text-morse text-xl md:text-2xl lg:text-3xl font-mono">/.----</span>
+            <span class="morse-group text-morse text-xl md:text-2xl lg:text-3xl font-mono">/--...</span>
+            <span class="morse-group text-morse text-xl md:text-2xl lg:text-3xl font-mono">/.----</span>
+            <span class="morse-group text-morse text-xl md:text-2xl lg:text-3xl font-mono">/..---</span>
+            <span class="morse-group text-morse text-xl md:text-2xl lg:text-3xl font-mono">/....-</span>
+            <span class="morse-group text-morse text-xl md:text-2xl lg:text-3xl font-mono">/-....</span>
+            <span class="morse-group text-morse text-xl md:text-2xl lg:text-3xl font-mono">/.----</span>
+            <span class="morse-group text-morse text-xl md:text-2xl lg:text-3xl font-mono">/-----</span>
+            <span class="morse-group text-morse text-xl md:text-2xl lg:text-3xl font-mono">/....-</span>
+        </div>
+    </div>
+
+    <script>
+        // 为摩尔斯电码组添加悬停动画效果
+        document.querySelectorAll('.morse-group').forEach(group => {
+            group.addEventListener('mouseenter', () => {
+                group.style.color = '#1A365D';
+            });
+            
+            group.addEventListener('mouseleave', () => {
+                group.style.color = '#2D3748';
+            });
+        });
+    </script>
+</body>
+</html>
+    

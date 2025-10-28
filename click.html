@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>██████████████</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <script>
+        // 配置Tailwind自定义颜色
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#1E40AF',
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .usb-icon {
+                transition: all 0.3s ease;
+            }
+            .usb-icon:hover {
+                transform: scale(1.05);
+            }
+            .usb-icon:active {
+                transform: scale(0.95);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="text-center">
+        <!-- USB图标 -->
+        <div id="usbIcon" class="usb-icon text-primary text-9xl md:text-12xl cursor-pointer mb-6">
+            <i class="fa fa-usb"></i>
+        </div>
+        
+        <!-- 点击次数提示（可选，用于调试） -->
+        <p id="clickCount" class="text-gray-600 text-lg hidden">点击次数: 0/7</p>
+    </div>
+
+    <script>
+        // 获取元素
+        const usbIcon = document.getElementById('usbIcon');
+        const clickCount = document.getElementById('clickCount');
+        
+        // 初始化点击计数器
+        let count = 0;
+        
+        // 点击事件处理
+        usbIcon.addEventListener('click', () => {
+            // 增加计数
+            count++;
+            
+            // 更新计数显示（调试用）
+            clickCount.textContent = `点击次数: ${count}/7`;
+            
+            // 改变图标颜色作为反馈
+            usbIcon.classList.remove('text-primary');
+            usbIcon.classList.add('text-secondary');
+            
+            // 短暂延迟后恢复原色
+            setTimeout(() => {
+                usbIcon.classList.remove('text-secondary');
+                usbIcon.classList.add('text-primary');
+            }, 200);
+            
+            // 当点击次数达到7次时跳转
+            if (count === 7) {
+                // 添加跳转前的动画效果
+                usbIcon.classList.add('animate-pulse');
+                setTimeout(() => {
+                    window.location.href = 'https://blog-xingchen.top/morse/';
+                }, 500);
+            }
+        });
+    </script>
+</body>
+</html>
