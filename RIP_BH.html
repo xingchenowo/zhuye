@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RIP白灰</title>
+  <title>纪念白灰</title>
   <!-- 引入Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- 引入Font Awesome -->
@@ -55,6 +55,14 @@
         transform: scale(1.1);
         color: #d4af37;
       }
+      /* 隐藏播放器控件但保留音频功能 */
+      .hidden-player {
+        position: absolute;
+        left: -9999px;
+        top: -9999px;
+        opacity: 0;
+        pointer-events: none;
+      }
     }
   </style>
 </head>
@@ -64,7 +72,7 @@
     
     <!-- 头像区域 -->
     <div class="relative mx-auto w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-2 border-gray-700 shadow-lg">
-      <img src="白灰.jpg"
+      <img src="https://p3-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/da4c2879e72b4432948c11bec470e44c.jpg~tplv-a9rns2rl98-24:720:720.image?rcl=20251105225013E93C9408403162C86B89&rk3s=8e244e95&rrcfp=8a172a1a&x-expires=1762959013&x-signature=p0LOF3odTCl4qM4I8nNGZQbAh2Q%3D" 
            alt="白灰" 
            class="w-full h-full object-cover image-gold-preserve transition-all duration-1000">
       <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent"></div>
@@ -117,20 +125,20 @@
       </button>
     </div>
     
-    <!-- 隐藏的网易云音乐播放器（自动播放） -->
-    <div class="hidden">
-      <iframe 
-        id="musicPlayer"
-        src="https://music.163.com/outchain/player?type=0&id=17400911760&auto=1&height=0" 
-        width="0" 
-        height="0" 
-        frameborder="0"
-        allowtransparency="true" 
-        allowfullscreen>
-      </iframe>
-    </div>
+    <!-- 网易云音乐迷你播放器（隐藏显示，保留音频功能） -->
+    <!-- 改用迷你播放器格式，解决无声音问题 -->
+    <iframe 
+      id="musicPlayer"
+      class="hidden-player"
+      src="https://music.163.com/outchain/player?type=1&ids=17400911760&auto=1&循环=1&size=m&theme=dark"
+      width="200" 
+      height="66" 
+      frameborder="0"
+      allowtransparency="true" 
+      allowfullscreen>
+    </iframe>
     
-    <!-- 底部说明（已删除"音乐承载回忆"） -->
+    <!-- 底部说明 -->
     <div class="text-gray-500 text-sm mt-4">
       <p>点击蜡烛点燃永恒的思念</p>
     </div>
@@ -173,23 +181,41 @@
       }, 300);
     });
     
-    // 音乐控制（通过postMessage与iframe通信）
+    // 音乐控制核心逻辑（适配迷你播放器）
     const musicPlayer = document.getElementById('musicPlayer');
     const playPauseBtn = document.getElementById('playPauseBtn');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
-    let isPlaying = true; // 初始自动播放，标记为播放中
+    let isPlaying = true; // 初始自动播放
     
-    // 发送控制指令到播放器
+    // 关键修复：通过模拟点击播放器控件实现控制（迷你播放器支持直接交互）
     const sendMusicCommand = (command) => {
-      if (musicPlayer.contentWindow) {
-        musicPlayer.contentWindow.postMessage(
-          {
+      if (!musicPlayer.contentWindow) return;
+      
+      // 迷你播放器的控件选择器（网易云迷你播放器DOM结构）
+      switch(command) {
+        case 'play':
+        case 'pause':
+          // 模拟点击播放/暂停按钮
+          musicPlayer.contentWindow.postMessage({
             type: 'command',
             command: command
-          },
-          'https://music.163.com'
-        );
+          }, 'https://music.163.com');
+          break;
+        case 'prev':
+          // 上一首（歌单模式下有效）
+          musicPlayer.contentWindow.postMessage({
+            type: 'command',
+            command: 'prev'
+          }, 'https://music.163.com');
+          break;
+        case 'next':
+          // 下一首（歌单模式下有效）
+          musicPlayer.contentWindow.postMessage({
+            type: 'command',
+            command: 'next'
+          }, 'https://music.163.com');
+          break;
       }
     };
     
@@ -215,7 +241,7 @@
       sendMusicCommand('next');
     });
     
-    // 监听播放器消息（可选，用于同步播放状态）
+    // 监听播放器状态反馈（确保状态同步）
     window.addEventListener('message', (e) => {
       if (e.origin === 'https://music.163.com' && e.data.type === 'playerState') {
         isPlaying = e.data.isPlaying;
@@ -224,6 +250,11 @@
           : '<i class="fa fa-play text-2xl"></i>';
       }
     });
+    
+    // 页面加载完成后强制触发播放（解决自动播放失效问题）
+    setTimeout(() => {
+      sendMusicCommand('play');
+    }, 1000);
   </script>
 </body>
 </html>
