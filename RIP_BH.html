@@ -48,6 +48,16 @@
       .image-gold-preserve {
         filter: grayscale(80%) contrast(1.1);
       }
+      .player-container {
+        background-color: rgba(20, 20, 20, 0.6);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(100, 100, 100, 0.3);
+        transition: all 0.3s ease;
+      }
+      .player-container:hover {
+        border-color: rgba(212, 175, 55, 0.5);
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+      }
     }
   </style>
 </head>
@@ -95,6 +105,19 @@
         <!-- 烛台 -->
         <div class="w-12 h-2 bg-gray-400 rounded-md mt-1"></div>
       </div>
+    </div>
+    
+    <!-- 嵌入式音乐播放器 -->
+    <div class="player-container rounded-lg p-3 max-w-xs mx-auto">
+      <iframe 
+        src="https://enamscard.pages.dev/?playlist=17400911760&theme=dark&themeColor=%23008eff" 
+        width="260" 
+        height="110" 
+        style="border: none; border-radius: 8px;" 
+        frameborder="0"
+        allowtransparency="true"
+        allowfullscreen>
+      </iframe>
     </div>
     
     <!-- 底部说明 -->
