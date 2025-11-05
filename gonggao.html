@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>公告&文章</title>
+  <!-- 引入Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 引入Font Awesome图标 -->
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <!-- 自定义配置 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#4B5563',
+            secondary: '#9CA3AF',
+            accent: '#374151',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .nav-item-active {
+        @apply bg-primary/10 text-primary border-l-2 border-primary;
+      }
+      .nav-item-hover {
+        @apply hover:bg-primary/5 transition-all duration-300;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans text-gray-800">
+  <div class="container mx-auto px-4 py-8 max-w-2xl">
+    <!-- 跳转栏标题 -->
+    <div class="mb-6 text-center">
+      <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-primary mb-2">公告&文章</h2>
+    </div>
+    
+    <!-- 垂直导航栏主体 -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+      <nav class="flex flex-col">
+        <!-- RIP白灰（跳转至RIP_BH.html） -->
+        <a href="RIP_BH.html" class="nav-item-active nav-item-hover flex items-center justify-start px-8 py-5 w-full">
+          <i class="fa fa-moon-o text-primary mr-3 text-lg"></i>
+          <span class="font-medium">RIP白灰</span>
+        </a>
+ 
+      </nav>
+    </div>
+  </div>
+</body>
+</html>
