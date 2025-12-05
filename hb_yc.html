@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>余尘生日快乐！我的对象</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        happy: {
+                            pink: '#FF6B8B',
+                            blue: '#4A90E2',
+                            yellow: '#FFCE52',
+                            green: '#2ECC71',
+                            purple: '#9B59B6'
+                        }
+                    },
+                    fontFamily: {
+                        fun: ['"Comic Sans MS"', '"Bubblegum Sans"', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .confetti {
+                animation: confetti 5s ease-in-out infinite;
+            }
+            .bounce-custom {
+                animation: bounce-custom 2s infinite;
+            }
+            .shake {
+                animation: shake 0.5s ease-in-out;
+            }
+            .text-glow {
+                text-shadow: 0 0 10px currentColor;
+            }
+        }
+
+        @keyframes confetti {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        @keyframes bounce-custom {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+
+        .page {
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-happy-pink/10 to-happy-purple/10 min-h-screen font-fun overflow-x-hidden">
+    <!-- 彩带动效 -->
+    <div id="confettiContainer" class="fixed inset-0 pointer-events-none z-50"></div>
+
+    <!-- 主容器 -->
+    <div class="max-w-2xl w-full mx-auto p-4 sm:p-6 relative z-10">
+        <!-- 标题区域 -->
+        <header class="text-center mb-8 pt-4">
+            <h1 class="text-[clamp(2rem,6vw,3.5rem)] font-bold text-happy-pink mb-2 text-glow">
+                余尘 生日快乐！
+            </h1>
+            <div class="flex justify-center gap-3 text-happy-yellow bounce-custom">
+                <i class="fa fa-birthday-cake text-2xl"></i>
+                <i class="fa fa-heart text-2xl"></i>
+                <i class="fa fa-gamepad text-2xl"></i>
+                <i class="fa fa-star text-2xl"></i>
+            </div>
+            <p class="mt-4 text-happy-purple/80 text-lg">我的专属对象，要永远幸福呀～</p>
+        </header>
+
+        <!-- 互动指示器 -->
+        <div class="flex justify-center items-center gap-4 mb-6">
+            <button id="prevBtn" class="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-happy-purple/10 transition-all group">
+                <i class="fa fa-arrow-left text-happy-purple text-xl group-hover:scale-110 transition-transform"></i>
+            </button>
+            <div class="flex gap-2" id="dotIndicator">
+                <div class="w-3 h-3 rounded-full bg-happy-pink scale-125"></div>
+                <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+            </div>
+            <button id="nextBtn" class="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-happy-pink/10 transition-all group">
+                <i class="fa fa-arrow-right text-happy-pink text-xl group-hover:scale-110 transition-transform"></i>
+            </button>
+        </div>
+
+        <!-- 滑动翻页容器 -->
+        <div class="relative h-[420px] sm:h-[480px] overflow-hidden rounded-2xl bg-white shadow-xl p-6 sm:p-8">
+            <div class="absolute inset-0 flex transition-transform duration-600 ease-in-out" id="pageWrapper">
+                <!-- 页面1：生日祝福 -->
+                <div class="page min-w-full h-full flex flex-col items-center justify-center text-center">
+                    <div class="text-happy-pink text-4xl sm:text-5xl font-bold mb-6">
+                        🎉 HAPPY BIRTHDAY 🎉
+                    </div>
+                    <p class="text-gray-700 text-lg sm:text-xl max-w-md mx-auto leading-relaxed">
+                        新的一岁，我的对象：<br>
+                        每天都甜度超标，<br>
+                        烦恼全部清零，<br>
+                        好运环绕左右！
+                    </p>
+                    <div class="mt-8 flex gap-4 text-happy-pink text-2xl">
+                        <i class="fa fa-smile-o"></i>
+                        <i class="fa fa-gift"></i>
+                        <i class="fa fa-heart"></i>
+                    </div>
+                </div>
+
+                <!-- 页面2：康复祝福 -->
+                <div class="page min-w-full h-full flex flex-col items-center justify-center text-center">
+                    <div class="text-happy-green text-3xl sm:text-4xl font-bold mb-6 flex items-center gap-3">
+                        <i class="fa fa-leaf text-glow"></i>
+                        <span>早日战胜抑郁</span>
+                    </div>
+                    <p class="text-gray-700 text-lg sm:text-xl max-w-md mx-auto leading-relaxed">
+                        阳光会驱散所有阴霾，<br>
+                        我会一直陪着你治愈伤痛，<br>
+                        你超勇敢、超棒的！<br>
+                        我们一起迎接美好～
+                    </p>
+                    <div class="mt-8 w-20 h-1 bg-happy-green rounded-full"></div>
+                </div>
+
+                <!-- 页面3：长久陪伴（对象版） -->
+                <div class="page min-w-full h-full flex flex-col items-center justify-center text-center">
+                    <div class="text-happy-purple text-3xl sm:text-4xl font-bold mb-6 flex items-center gap-3">
+                        <i class="fa fa-ring text-glow"></i>
+                        <span>我们长长久久</span>
+                    </div>
+                    <p class="text-gray-700 text-lg sm:text-xl max-w-md mx-auto leading-relaxed">
+                        从心动到白首，<br>
+                        一路相伴，彼此守护，<br>
+                        往后余生，<br>
+                        只愿和你一起疯一起笑！
+                    </p>
+                    <div class="mt-8 flex gap-3 text-happy-purple text-xl">
+                        <i class="fa fa-handshake-o"></i>
+                        <i class="fa fa-heart"></i>
+                        <i class="fa fa-calendar-check-o"></i>
+                    </div>
+                </div>
+
+                <!-- 页面4：枪法祝福 -->
+                <div class="page min-w-full h-full flex flex-col items-center justify-center text-center">
+                    <div class="text-happy-blue text-3xl sm:text-4xl font-bold mb-6 flex items-center gap-3">
+                        <i class="fa fa-crosshairs text-glow"></i>
+                        <span>枪法越来越强</span>
+                    </div>
+                    <p class="text-gray-700 text-lg sm:text-xl max-w-md mx-auto leading-relaxed">
+                        压枪稳如泰山，<br>
+                        瞄准百发百中，<br>
+                        反应快如闪电，<br>
+                        成为全场最秀的大神！
+                    </p>
+                    <div class="mt-8 flex gap-4 text-happy-blue text-2xl">
+                        <i class="fa fa-bullseye"></i>
+                        <i class="fa fa-trophy"></i>
+                        <i class="fa fa-fire"></i>
+                    </div>
+                </div>
+
+                <!-- 页面5：把把摸大红+刘涛 -->
+                <div class="page min-w-full h-full flex flex-col items-center justify-center text-center">
+                    <div class="text-happy-yellow text-3xl sm:text-4xl font-bold mb-6 flex items-center gap-3">
+                        <i class="fa fa-diamond text-glow"></i>
+                        <span>把把都能摸大红</span>
+                    </div>
+                    <p class="text-gray-700 text-lg sm:text-xl max-w-md mx-auto leading-relaxed">
+                        大红随手捡，<br>
+                        刘涛不用愁，<br>
+                        欧气爆棚到溢出，<br>
+                        游戏一路躺赢到底！
+                    </p>
+                    <div class="mt-8 flex gap-4 text-happy-yellow text-2xl shake">
+                        <i class="fa fa-gem"></i>
+                        <i class="fa fa-coins"></i>
+                        <i class="fa fa-lucky-draw"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 互动提示 -->
+        <div class="text-center mt-6 text-gray-500 text-sm">
+            <p>👉 点击箭头 / 滑动屏幕 / 按方向键 切换祝福 👈</p>
+        </div>
+
+        <!-- 底部彩蛋按钮 -->
+        <div class="text-center mt-10">
+            <button id="surpriseBtn" class="px-6 py-3 bg-happy-pink text-white rounded-full shadow-lg hover:bg-happy-pink/90 transition-all hover:scale-105">
+                <i class="fa fa-magic mr-2"></i> 点击解锁惊喜
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 核心变量
+        const pageWrapper = document.getElementById('pageWrapper');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const dotIndicator = document.querySelectorAll('#dotIndicator div');
+        const surpriseBtn = document.getElementById('surpriseBtn');
+        const confettiContainer = document.getElementById('confettiContainer');
+        let currentPage = 0;
+        const totalPages = 5;
+
+        // 初始化
+        updatePage();
+
+        // 事件监听 - 按钮点击
+        prevBtn.addEventListener('click', () => {
+            currentPage = (currentPage - 1 + totalPages) % totalPages;
+            updatePage();
+            playSound('click');
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentPage = (currentPage + 1) % totalPages;
+            updatePage();
+            playSound('click');
+        });
+
+        // 事件监听 - 键盘控制
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                currentPage = (currentPage - 1 + totalPages) % totalPages;
+                updatePage();
+                playSound('click');
+            } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                currentPage = (currentPage + 1) % totalPages;
+                updatePage();
+                playSound('click');
+            }
+        });
+
+        // 事件监听 - 滑动控制
+        let startX = 0;
+        pageWrapper.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
+
+        pageWrapper.addEventListener('touchend', (e) => {
+            const endX = e.changedTouches[0].clientX;
+            const diffX = startX - endX;
+            
+            if (diffX > 50) {
+                // 向右滑动（下一页）
+                currentPage = (currentPage + 1) % totalPages;
+                updatePage();
+                playSound('click');
+            } else if (diffX < -50) {
+                // 向左滑动（上一页）
+                currentPage = (currentPage - 1 + totalPages) % totalPages;
+                updatePage();
+                playSound('click');
+            }
+        });
+
+        // 惊喜按钮
+        surpriseBtn.addEventListener('click', () => {
+            createConfetti();
+            playSound('surprise');
+            surpriseBtn.innerHTML = '<i class="fa fa-star mr-2"></i> 惊喜已送达！';
+            setTimeout(() => {
+                surpriseBtn.innerHTML = '<i class="fa fa-magic mr-2"></i> 再次解锁惊喜';
+            }, 3000);
+        });
+
+        // 更新页面显示
+        function updatePage() {
+            // 滑动效果
+            pageWrapper.style.transform = `translateX(-${currentPage * 100}%)`;
+            
+            // 更新指示器
+            dotIndicator.forEach((dot, index) => {
+                if (index === currentPage) {
+                    dot.classList.remove('bg-gray-300');
+                    dot.classList.add('bg-happy-pink', 'scale-125', 'transition-transform');
+                } else {
+                    dot.classList.remove('bg-happy-pink', 'scale-125');
+                    dot.classList.add('bg-gray-300');
+                }
+            });
+        }
+
+        // 播放音效
+        function playSound(type) {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            if (type === 'click') {
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(440, audioCtx.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.1);
+                gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.2);
+            } else if (type === 'surprise') {
+                oscillator.type = 'triangle';
+                oscillator.frequency.setValueAtTime(523, audioCtx.currentTime); // C5
+                oscillator.frequency.setValueAtTime(659, audioCtx.currentTime + 0.1); // E5
+                oscillator.frequency.setValueAtTime(783, audioCtx.currentTime + 0.2); // G5
+                oscillator.frequency.setValueAtTime(1046, audioCtx.currentTime + 0.3); // C6
+                gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1);
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 1);
+            }
+        }
+
+        // 创建彩带动效
+        function createConfetti() {
+            const colors = ['#FF6B8B', '#4A90E2', '#FFCE52', '#2ECC71', '#9B59B6', '#FF9F43'];
+            const shapes = ['circle', 'square', 'triangle'];
+
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                const size = Math.random() * 10 + 5;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                const left = Math.random() * 100;
+                const animationDuration = Math.random() * 3 + 2;
+                const delay = Math.random() * 2;
+
+                // 设置样式
+                confetti.style.position = 'absolute';
+                confetti.style.left = `${left}%`;
+                confetti.style.top = '-20px';
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                confetti.style.backgroundColor = color;
+                confetti.style.opacity = '0.7';
+                confetti.style.animation = `confetti ${animationDuration}s ease-in-out ${delay}s forwards`;
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+                // 不同形状
+                if (shape === 'square') {
+                    confetti.style.borderRadius = '0';
+                } else if (shape === 'triangle') {
+                    confetti.style.backgroundColor = 'transparent';
+                    confetti.style.borderLeft = `${size/2}px solid transparent`;
+                    confetti.style.borderRight = `${size/2}px solid transparent`;
+                    confetti.style.borderBottom = `${size}px solid ${color}`;
+                    confetti.style.width = '0';
+                    confetti.style.height = '0';
+                }
+
+                confettiContainer.appendChild(confetti);
+
+                // 移除过期彩带
+                setTimeout(() => {
+                    confetti.remove();
+                }, (animationDuration + delay) * 1000);
+            }
+        }
+
+        // 页面加载动画
+        window.addEventListener('load', () => {
+            const mainContainer = document.querySelector('.max-w-2xl');
+            mainContainer.classList.add('opacity-0', 'translate-y-10');
+            
+            setTimeout(() => {
+                mainContainer.classList.remove('opacity-0', 'translate-y-10');
+                mainContainer.classList.add('transition-all', 'duration-1000', 'ease-out');
+            }, 300);
+        });
+    </script>
+</body>
+</html>
